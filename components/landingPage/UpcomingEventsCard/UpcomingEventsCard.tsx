@@ -10,6 +10,7 @@ interface UpcomingEventsCardProps {
   buttonTitle: string;
   eventDate?: string;
   signUpLink?: string;
+  onButtonClick?: () => void;
 }
 
 export default function UpcomingEventsCard({
@@ -18,6 +19,7 @@ export default function UpcomingEventsCard({
   buttonTitle,
   eventDate,
   signUpLink,
+  onButtonClick,
 }: UpcomingEventsCardProps) {
   return (
     <Card className="max-w-[400px] m-2.5">
@@ -36,7 +38,8 @@ export default function UpcomingEventsCard({
         <Button
           variant="contained"
           href={signUpLink}
-          disabled={!signUpLink}
+          onClick={onButtonClick}
+          disabled={!signUpLink && !onButtonClick}
           className="mt-2.5"
         >
           {buttonTitle}

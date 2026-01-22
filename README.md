@@ -33,6 +33,18 @@ git clone https://github.com/TechPlus-UW/techplus-website-v2.git
 pnpm install
 ```
 
+3. Set up Supabase:
+   - Create a Supabase project at https://supabase.com
+   - Run the migration file `supabase/migrations/001_create_profiles_table.sql` in your Supabase SQL editor
+   - Copy your Supabase URL and anon key
+
+4. Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_FLAGSMITH_ENV_KEY=your_flagsmith_key
+```
+
 ## Running the application locally
 
 Start your local development server with:
@@ -42,11 +54,6 @@ pnpm dev:web
 
 This will open up a browser window on http://localhost:3000.
 
-You will need a `.env.local` file containing the following environment variables:
-- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anonymous key
-- `NEXT_PUBLIC_FLAGSMITH_ENV_KEY` - Your Flagsmith environment key
-
 ## Project Overview
 
 This is a Next.js 15 application built with:
@@ -54,7 +61,7 @@ This is a Next.js 15 application built with:
 - **Styling**: Tailwind CSS
 - **UI Components**: Material-UI (MUI) v6
 - **State Management**: Redux Toolkit
-- **Backend**: Supabase (minimal setup)
+- **Backend**: Supabase (Authentication & Database)
 - **Package Manager**: pnpm
 - **Build System**: Turbo
 
@@ -65,12 +72,29 @@ The project is divided into various subcomponents located in the `components/` f
 ```
 techplus-website-v2/
 ├── app/                    # Next.js App Router pages
+│   ├── login/             # Login page
+│   ├── signup/            # Signup page
+│   └── reset-password/   # Password reset page
 ├── components/            # React components (TypeScript)
 ├── constants/            # TypeScript constants
-├── lib/                  # Utilities, store, supabase, theme
+├── lib/                  # Utilities, store, supabase, services
+│   ├── repositories/     # Data access layer
+│   ├── services/         # Business logic layer
+│   ├── store/            # Redux store
+│   └── supabase/         # Supabase client
+├── supabase/
+│   └── migrations/       # Database migrations
 ├── types/                # TypeScript type definitions
 └── public/               # Static assets
 ```
+
+### Architecture
+
+The project follows a layered architecture:
+
+1. **Repositories** (`lib/repositories/`): Handle direct database/API interactions
+2. **Services** (`lib/services/`): Contain business logic and orchestrate repository calls
+3. **Components**: UI components that use services for data operations
 
 ## Available Scripts
 
@@ -99,6 +123,25 @@ Runs TypeScript compiler to check for type errors.
 
 Runs Turbo commands directly.
 
+## Database Setup
+
+### Supabase Tables
+
+The application uses the following Supabase tables:
+
+- **profiles**: Stores user profile information
+  - `id` (UUID, references auth.users)
+  - `email` (TEXT)
+  - `first_name` (TEXT)
+  - `last_name` (TEXT)
+  - `created_at` (TIMESTAMP)
+  - `updated_at` (TIMESTAMP)
+
+To set up the database, run the migration file in your Supabase SQL editor:
+```sql
+-- See supabase/migrations/001_create_profiles_table.sql
+```
+
 ## Technology Stack
 
 - **Next.js 15** - React framework with App Router
@@ -107,7 +150,7 @@ Runs Turbo commands directly.
 - **Tailwind CSS** - Utility-first CSS framework
 - **Material-UI v6** - React component library
 - **Redux Toolkit** - State management
-- **Supabase** - Backend as a service
+- **Supabase** - Backend as a service (Auth & Database)
 - **Turbo** - Build system and task runner
 - **pnpm** - Fast, disk space efficient package manager
 
