@@ -6,10 +6,12 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import { usePathname } from 'next/navigation';
+import Button from '@mui/material/Button';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import NavbarTabs from './NavbarTabs';
+import ProfileButton from './ProfileButton';
 import { useAppSelector } from '@/lib/store/hooks';
 import Logo from './logo.png';
 
@@ -22,7 +24,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState(0);
   const pathname = usePathname();
-  const userRole = useAppSelector((state) => state.user.userRole);
+  const router = useRouter();
+  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -37,33 +40,59 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const routes = ['/', '/initiatives', '/impact', '/resources', '/mentors', '/profile'];
+    const routes = ['/', '/team', '/calendar'];
     const index = routes.indexOf(pathname);
     if (index !== -1) {
       setCurrentTab(index);
     }
   }, [pathname]);
 
-  const hasUser = userRole !== '';
-  const isMobile = width < navWidth(hasUser) && width > 0;
+  const handleLogin = () => {
+    router.push('/login');
+  };
+
+  const handleSignup = () => {
+    router.push('/signup');
+  };
+
+  const isMobile = width < navWidth(isAuthenticated) && width > 0;
 
   return (
     <div className="relative">
       <AppBar position="sticky" className="top-0 z-50" style={{ backgroundColor: '#020B2C' }}>
-        <Toolbar className="flex justify-between px-[6%] max-w-full">
-          <Link href="/" className="no-underline flex items-center">
-            <Image src={Logo} alt="Tech+ UW Logo" width={100} height={50} className="object-contain" />
-          </Link>
-          {isMobile ? (
-            <div>
+        <Toolbar className="flex items-center justify-between px-[6%]">
+            <div className="flex items-center">
+            <Link href="/" className="no-underline flex items-center">
+                <Image
+                src={Logo}
+                alt="Tech+ UW Logo"
+                width={100}
+                height={50}
+                className="object-contain"
+                />
+            </Link>
+            </div>
+
+            {/* CENTER: Tabs */}
+            <div className="absolute left-1/2 -translate-x-1/2">
+            <NavbarTabs
+                currentTab={currentTab}
+                setCurrentTab={setCurrentTab}
+                tabOrientation="horizontal"
+            />
+            </div>
+
+            {/* RIGHT: Auth buttons or profile */}
+            {isMobile ? (
+            <>
+              {isAuthenticated && <ProfileButton />}
               <IconButton
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                onClick={() => setOpen(true)}
-                className="text-white"
+                  edge="end"
+                  color="inherit"
+                  onClick={() => setOpen(true)}
+                  className="text-white"
               >
-                <MenuIcon />
+                  <MenuIcon />
               </IconButton>
               <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
                 <div onClick={() => setOpen(false)} className="min-w-[300px]">
@@ -74,16 +103,35 @@ export default function Navbar() {
                   />
                 </div>
               </Drawer>
+            </>
+            ) : (
+            <div className="flex items-center gap-3">
+                {isAuthenticated ? (
+                  <ProfileButton />
+                ) : (
+                  <>
+                    <Button
+                      variant="outlined"
+                      onClick={handleLogin}
+                      className="text-white border-white normal-case"
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleSignup}
+                      className="normal-case text-white"
+                      sx={{
+                        backgroundColor: '#6C9A5C',
+                        '&:hover': { backgroundColor: '#8BC677' },
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
             </div>
-          ) : (
-            <div className="flex items-center">
-              <NavbarTabs
-                currentTab={currentTab}
-                setCurrentTab={setCurrentTab}
-                tabOrientation="horizontal"
-              />
-            </div>
-          )}
+            )}
         </Toolbar>
       </AppBar>
     </div>
