@@ -28,20 +28,39 @@ export default function AdminPage() {
   const { userRole, isAuthenticated } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (!isAuthenticated || userRole !== 'admin') {
+    console.log('Admin page - isAuthenticated:', isAuthenticated, 'userRole:', userRole);
+    
+    if (!isAuthenticated) {
+      console.log('Not authenticated, redirecting...');
       router.push('/');
       return;
     }
 
+    if (userRole !== 'admin') {
+      console.log('User role is not admin:', userRole, 'redirecting...');
+      router.push('/');
+      return;
+    }
+
+    console.log('User is admin, loading stats...');
     loadStats();
   }, [isAuthenticated, userRole, router]);
 
   const loadStats = async () => {
-    const result = await adminService.getStats();
-    if (result.success) {
-      setStats(result.data);
-    } else {
-      setError(result.error || 'Failed to load stats');
+    try {
+      const result = await adminService.getStats();
+      if (result.success) {
+        setStats(result.data);
+        setError(''); // Clear any previous errors
+      } else {
+        const errorMsg = result.error || 'Failed to load stats';
+        console.error('Failed to load stats:', errorMsg);
+        setError(errorMsg);
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error occurred';
+      console.error('Error loading stats:', err);
+      setError(errorMsg);
     }
   };
 
@@ -96,8 +115,34 @@ export default function AdminPage() {
     setLoading(false);
   };
 
+  // Show debug info if not admin
   if (!isAuthenticated || userRole !== 'admin') {
-    return null;
+    return (
+      <>
+        <Navbar />
+        <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
+          <div className="max-w-6xl mx-auto">
+            <Card className="bg-red-900 p-6">
+              <Typography variant="h5" className="text-white mb-4">
+                Access Denied
+              </Typography>
+              <Typography variant="body1" className="text-white mb-2">
+                You need admin privileges to access this page.
+              </Typography>
+              <Typography variant="body2" className="text-gray-300">
+                Current status: {isAuthenticated ? 'Authenticated' : 'Not authenticated'}
+              </Typography>
+              <Typography variant="body2" className="text-gray-300">
+                Your role: {userRole || 'none'}
+              </Typography>
+              <Typography variant="body2" className="text-gray-300 mt-4">
+                Required role: admin
+              </Typography>
+            </Card>
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -110,42 +155,62 @@ export default function AdminPage() {
           {/* Stats Section */}
           {stats && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-              <Card className="bg-gray-800">
+              <Card 
+                sx={{ 
+                  backgroundColor: '#1F2937',
+                  color: 'white',
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" className="text-gray-400 mb-2">
+                  <Typography variant="h6" sx={{ color: '#9CA3AF', mb: 2 }}>
                     Total Members
                   </Typography>
-                  <Typography variant="h4" className="text-white font-bold">
+                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                     {stats.totalMembers}
                   </Typography>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800">
+              <Card 
+                sx={{ 
+                  backgroundColor: '#1F2937',
+                  color: 'white',
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" className="text-gray-400 mb-2">
+                  <Typography variant="h6" sx={{ color: '#9CA3AF', mb: 2 }}>
                     Mentors
                   </Typography>
-                  <Typography variant="h4" className="text-white font-bold">
+                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                     {stats.mentors}
                   </Typography>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800">
+              <Card 
+                sx={{ 
+                  backgroundColor: '#1F2937',
+                  color: 'white',
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" className="text-gray-400 mb-2">
+                  <Typography variant="h6" sx={{ color: '#9CA3AF', mb: 2 }}>
                     Mentees
                   </Typography>
-                  <Typography variant="h4" className="text-white font-bold">
+                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                     {stats.mentees}
                   </Typography>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800">
+              <Card 
+                sx={{ 
+                  backgroundColor: '#1F2937',
+                  color: 'white',
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" className="text-gray-400 mb-2">
+                  <Typography variant="h6" sx={{ color: '#9CA3AF', mb: 2 }}>
                     Execs
                   </Typography>
-                  <Typography variant="h4" className="text-white font-bold">
+                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
                     {stats.execs}
                   </Typography>
                 </CardContent>
@@ -154,17 +219,41 @@ export default function AdminPage() {
           )}
 
           {/* Search and Role Management Section */}
-          <Card className="bg-gray-800 p-6">
-            <h2 className="text-2xl font-semibold text-white mb-6">User Management</h2>
+          <Card 
+            sx={{ 
+              backgroundColor: '#1F2937',
+              color: 'white',
+              p: 3,
+            }}
+          >
+            <Typography variant="h5" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
+              User Management
+            </Typography>
 
             {error && (
-              <Alert severity="error" className="mb-4 bg-red-900 text-white">
+              <Alert 
+                severity="error" 
+                sx={{ 
+                  mb: 2, 
+                  backgroundColor: '#7F1D1D', 
+                  color: 'white',
+                  '& .MuiAlert-icon': { color: 'white' },
+                }}
+              >
                 {error}
               </Alert>
             )}
 
             {success && (
-              <Alert severity="success" className="mb-4 bg-green-900 text-white">
+              <Alert 
+                severity="success" 
+                sx={{ 
+                  mb: 2, 
+                  backgroundColor: '#14532D', 
+                  color: 'white',
+                  '& .MuiAlert-icon': { color: 'white' },
+                }}
+              >
                 {success}
               </Alert>
             )}
@@ -182,25 +271,26 @@ export default function AdminPage() {
                       handleSearch();
                     }
                   }}
-                  className="bg-gray-700"
                   sx={{
                     '& .MuiOutlinedInput-root': {
+                      backgroundColor: '#374151',
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+                    '& .MuiInputBase-input::placeholder': { color: 'rgba(255, 255, 255, 0.5)' },
                   }}
                 />
                 <Button
                   variant="contained"
                   onClick={handleSearch}
                   disabled={loading}
-                  className="bg-[#6C9A5C] hover:bg-[#8BC677] text-white normal-case"
+                  className="bg-[#76a36d] hover:bg-[#5d8a55] text-white normal-case"
                   sx={{
-                    backgroundColor: '#6C9A5C',
-                    '&:hover': { backgroundColor: '#8BC677' },
+                    backgroundColor: '#76a36d',
+                    '&:hover': { backgroundColor: '#5d8a55' },
                   }}
                 >
                   Search
@@ -235,13 +325,13 @@ export default function AdminPage() {
                   </div>
                   <div className="flex gap-4 items-end">
                     <FormControl fullWidth>
-                      <InputLabel className="text-gray-400">Change Role</InputLabel>
+                      <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Change Role</InputLabel>
                       <Select
                         value={selectedRole}
                         onChange={(e) => setSelectedRole(e.target.value as UserRole)}
                         label="Change Role"
-                        className="bg-gray-600 text-white"
                         sx={{
+                          backgroundColor: '#374151',
                           color: 'white',
                           '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -250,7 +340,24 @@ export default function AdminPage() {
                             borderColor: 'rgba(255, 255, 255, 0.5)',
                           },
                           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#8BC677',
+                            borderColor: '#76a36d',
+                          },
+                          '& .MuiSvgIcon-root': {
+                            color: 'white',
+                          },
+                        }}
+                        MenuProps={{
+                          PaperProps: {
+                            sx: {
+                              backgroundColor: '#374151',
+                              color: 'white',
+                              '& .MuiMenuItem-root': {
+                                color: 'white',
+                                '&:hover': {
+                                  backgroundColor: '#4B5563',
+                                },
+                              },
+                            },
                           },
                         }}
                       >

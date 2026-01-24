@@ -59,7 +59,7 @@ export default function SignUpPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#020B2C' }}>
+      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
         <div className="max-w-md mx-auto">
           <h1 className="text-4xl font-semibold text-white mb-8">Create your account</h1>
           
@@ -89,7 +89,7 @@ export default function SignUpPage() {
                         borderColor: 'rgba(255, 255, 255, 0.5)',
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#8BC677',
+                        borderColor: '#76a36d',
                       },
                     },
                     '& .MuiInputBase-input::placeholder': {
@@ -113,7 +113,7 @@ export default function SignUpPage() {
                         borderColor: 'rgba(255, 255, 255, 0.5)',
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#8BC677',
+                        borderColor: '#76a36d',
                       },
                     },
                     '& .MuiInputBase-input::placeholder': {
@@ -147,7 +147,7 @@ export default function SignUpPage() {
                           borderColor: 'rgba(255, 255, 255, 0.5)',
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#8BC677',
+                          borderColor: '#76a36d',
                         },
                       },
                       '& .MuiInputBase-input::placeholder': {
@@ -190,7 +190,7 @@ export default function SignUpPage() {
                           borderColor: 'rgba(255, 255, 255, 0.5)',
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#8BC677',
+                          borderColor: '#76a36d',
                         },
                       },
                       '& .MuiInputBase-input::placeholder': {
@@ -233,7 +233,7 @@ export default function SignUpPage() {
                           borderColor: 'rgba(255, 255, 255, 0.5)',
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#8BC677',
+                          borderColor: '#76a36d',
                         },
                       },
                       '& .MuiInputBase-input::placeholder': {
@@ -270,7 +270,7 @@ export default function SignUpPage() {
           <div className="mt-6 text-center">
             <p className="text-white">
               Already have an account?{' '}
-              <Link href="/login" className="text-[#8BC677] hover:underline">
+              <Link href="/login" className="text-[#76a36d] hover:underline">
                 Sign in here
               </Link>
             </p>

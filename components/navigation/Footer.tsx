@@ -14,7 +14,7 @@ interface FooterProps {
 
 export default function Footer({ trackingEventCategory }: FooterProps) {
   return (
-    <footer className="relative w-full h-[150px]" style={{ backgroundColor: '#020B2C' }}>
+    <footer className="relative w-full h-[150px]" style={{ backgroundColor: '#050a1f' }}>
       <div className="absolute text-center h-[34.67px] top-[51px] left-1/2 -translate-x-1/2 flex items-center gap-2.5">
         <Link
           href="https://www.linkedin.com/company/techplusuw/"

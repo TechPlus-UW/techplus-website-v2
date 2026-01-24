@@ -27,13 +27,13 @@ export default function Event() {
       <div className="mt-8 flex gap-4 justify-center">
         <button
           onClick={() => router.push('/mentor-signup')}
-          className="px-6 py-3 bg-[#6C9A5C] hover:bg-[#8BC677] text-white rounded font-medium transition-colors"
+          className="px-6 py-3 bg-[#76a36d] hover:bg-[#5d8a55] text-white rounded font-medium transition-colors"
         >
           Mentor Sign Up
         </button>
         <button
           onClick={() => router.push('/mentee-signup')}
-          className="px-6 py-3 bg-[#6C9A5C] hover:bg-[#8BC677] text-white rounded font-medium transition-colors"
+          className="px-6 py-3 bg-[#76a36d] hover:bg-[#5d8a55] text-white rounded font-medium transition-colors"
         >
           Mentee Sign Up
         </button>

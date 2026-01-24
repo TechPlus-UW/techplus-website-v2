@@ -16,12 +16,45 @@ if (supabaseAnonKey.includes('service_role') || supabaseAnonKey.length > 200) {
   );
 }
 
+// Create a custom storage adapter that ensures persistence
+const getStorage = () => {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+  
+  return {
+    getItem: (key: string) => {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (error) {
+        console.error('Error reading from localStorage:', error);
+        return null;
+      }
+    },
+    setItem: (key: string, value: string) => {
+      try {
+        window.localStorage.setItem(key, value);
+      } catch (error) {
+        console.error('Error writing to localStorage:', error);
+      }
+    },
+    removeItem: (key: string) => {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (error) {
+        console.error('Error removing from localStorage:', error);
+      }
+    },
+  };
+};
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+    storage: getStorage(),
     storageKey: 'supabase.auth.token',
+    flowType: 'pkce',
   },
 });

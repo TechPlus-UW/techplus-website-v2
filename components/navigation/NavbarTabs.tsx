@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/lib/store/hooks';
 
 interface NavbarTabsProps {
   currentTab: number;
@@ -27,10 +28,14 @@ export default function NavbarTabs({
   tabOrientation,
 }: NavbarTabsProps) {
   const router = useRouter();
+  const userRole = useAppSelector((state) => state.user.userRole);
+  const isAdmin = userRole === 'admin';
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
-    const routes = ['/', '/team', '/calendar'];
+    const routes = isAdmin 
+      ? ['/', '/initiatives', '/impact', '/resources', '/team', '/calendar', '/admin']
+      : ['/', '/initiatives', '/impact', '/resources', '/team', '/calendar'];
     if (routes[newValue]) {
       router.push(routes[newValue]);
     }
@@ -62,7 +67,7 @@ export default function NavbarTabs({
               transform: 'translateX(-50%)',
               width: '60%',
               height: '2px',
-              backgroundColor: '#8BC677', // Green indicator on hover
+              backgroundColor: '#76a36d', // Green indicator on hover
             },
           },
           '&.Mui-selected': {
@@ -75,7 +80,7 @@ export default function NavbarTabs({
               transform: 'translateX(-50%)',
               width: '60%',
               height: '2px',
-              backgroundColor: '#8BC677', // Green indicator for active tab
+              backgroundColor: '#76a36d', // Green indicator for active tab
             },
           },
         },
@@ -87,15 +92,37 @@ export default function NavbarTabs({
         className={tabClasses}
       />
       <Tab
-        label="Team"
+        label="Initiatives"
         {...a11yProps(1)}
         className={tabClasses}
       />
       <Tab
-        label="Calendar"
+        label="Impact"
         {...a11yProps(2)}
         className={tabClasses}
       />
+      <Tab
+        label="Resources"
+        {...a11yProps(3)}
+        className={tabClasses}
+      />
+      <Tab
+        label="Team"
+        {...a11yProps(4)}
+        className={tabClasses}
+      />
+      <Tab
+        label="Calendar"
+        {...a11yProps(5)}
+        className={tabClasses}
+      />
+      {isAdmin && (
+        <Tab
+          label="Admin"
+          {...a11yProps(6)}
+          className={tabClasses}
+        />
+      )}
     </Tabs>
   );
 }

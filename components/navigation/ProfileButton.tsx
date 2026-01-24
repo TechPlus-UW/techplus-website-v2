@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Avatar, Menu, MenuItem, IconButton } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/lib/store/hooks';
-import type { UserRole } from '@/types/user';
 import { clearUser } from '@/lib/store/slices/userSlice';
 import { authService } from '@/lib/services/authService';
 
@@ -13,7 +12,7 @@ export default function ProfileButton() {
   const open = Boolean(anchorEl);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { firstName, lastName, userRole } = useAppSelector((state) => state.user);
+  const { firstName, lastName } = useAppSelector((state) => state.user);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,11 +25,6 @@ export default function ProfileButton() {
   const handleProfile = () => {
     handleClose();
     router.push('/profile');
-  };
-
-  const handleAdmin = () => {
-    handleClose();
-    router.push('/admin');
   };
 
   const handleLogout = async () => {
@@ -65,8 +59,8 @@ export default function ProfileButton() {
           sx={{
             width: 32,
             height: 32,
-            bgcolor: '#8BC677',
-            color: '#020B2C',
+            bgcolor: '#76a36d',
+            color: '#050a1f',
             fontSize: '14px',
             fontWeight: 600,
           }}
@@ -111,11 +105,6 @@ export default function ProfileButton() {
         <MenuItem onClick={handleProfile} sx={{ color: '#020B2C' }}>
           Profile
         </MenuItem>
-        {userRole === 'admin' && (
-          <MenuItem onClick={handleAdmin} sx={{ color: '#020B2C' }}>
-            Admin
-          </MenuItem>
-        )}
         <MenuItem onClick={handleLogout} sx={{ color: '#020B2C' }}>
           Logout
         </MenuItem>

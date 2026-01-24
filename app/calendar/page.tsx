@@ -14,28 +14,28 @@ const dummyEvents = [
     title: 'Tech+ Workshop: Resume Building',
     start: new Date().toISOString().split('T')[0] + 'T10:00:00',
     end: new Date().toISOString().split('T')[0] + 'T12:00:00',
-    backgroundColor: '#6C9A5C',
+    backgroundColor: '#76a36d',
   },
   {
     id: '2',
     title: 'Mentorship Program Kickoff',
     start: new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0] + 'T14:00:00',
     end: new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0] + 'T16:00:00',
-    backgroundColor: '#8BC677',
+    backgroundColor: '#76a36d',
   },
   {
     id: '3',
     title: 'Coffee Chat Session',
     start: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0] + 'T15:00:00',
     end: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0] + 'T16:30:00',
-    backgroundColor: '#6C9A5C',
+    backgroundColor: '#76a36d',
   },
   {
     id: '4',
     title: 'Tech+ Social Event',
     start: new Date(Date.now() + 86400000 * 14).toISOString().split('T')[0] + 'T18:00:00',
     end: new Date(Date.now() + 86400000 * 14).toISOString().split('T')[0] + 'T20:00:00',
-    backgroundColor: '#8BC677',
+    backgroundColor: '#76a36d',
   },
 ];
 
@@ -69,7 +69,7 @@ export default function CalendarPage() {
   return (
     <>
       <Navbar />
-      <div className="py-10 px-5" style={{ backgroundColor: '#020B2C', minHeight: '100vh' }}>
+      <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
         <div className="max-w-7xl mx-auto">
           <h1 className="mb-8 text-4xl font-semibold text-white text-center">Events Calendar</h1>
           <div className="bg-white rounded-lg p-4">
