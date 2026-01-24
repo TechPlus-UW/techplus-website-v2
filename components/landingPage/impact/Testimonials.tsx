@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '@mui/material';
 import Testimonial from '../Testimonial/Testimonial';
 
 const testimonials = [
@@ -38,15 +37,13 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#FFF0CB] mt-16">
-      {/* “move it down” + match screenshot breathing room */}
-      <div className="mx-auto max-w-6xl px-6 md:px-10 pt-20 md:pt-24 pb-16 md:pb-20">
-        <Typography className="font-semibold text-[40px] md:text-[48px] leading-[1.15] md:leading-[72px] text-navy">
+    <section className="bg-[#FFF0CB] pt-[72px]">
+      <div className="mx-auto max-w-6xl px-6 md:px-10 pb-16 md:pb-20">
+        <h2 className="font-semibold text-[40px] md:text-[48px] leading-[1.15] md:leading-[72px] text-navy mb-10">
           Testimonials from our Participants
-        </Typography>
+        </h2>
 
-        {/* Use CSS grid for screenshot-like placement */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-14">
           {testimonials.map((participant, index) => {
             const isRightColumn = index % 2 === 1;
             const isLast = index === testimonials.length - 1;
