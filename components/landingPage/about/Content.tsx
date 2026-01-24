@@ -11,7 +11,7 @@ import Image from 'next/image';
 export default function Content() {
   return (
     <>
-      <div className="py-8 px-2.5" style={{ backgroundColor: '#020B2C' }}>
+      <div className="py-8 px-2.5" style={{ backgroundColor: '#050a1f' }}>
         <div className="max-w-[1500px] mx-auto">
           <div className="grid grid-cols-12 gap-5">
             <div className="col-span-1 hidden md:block"></div>
@@ -31,7 +31,7 @@ export default function Content() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#6C9A5C' }}>
+                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#76a36d' }}>
                       <TwitterIcon className="text-white" />
                     </Avatar>
                   </a>
@@ -41,7 +41,7 @@ export default function Content() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#6C9A5C' }}>
+                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#76a36d' }}>
                       <EmailIcon className="text-white" />
                     </Avatar>
                   </a>
@@ -51,7 +51,7 @@ export default function Content() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#6C9A5C' }}>
+                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#76a36d' }}>
                       <FacebookIcon className="text-white" />
                     </Avatar>
                   </a>
@@ -61,7 +61,7 @@ export default function Content() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#6C9A5C' }}>
+                    <Avatar className="w-[46px] h-[46px]" style={{ backgroundColor: '#76a36d' }}>
                       <InstagramIcon className="text-white" />
                     </Avatar>
                   </a>
@@ -70,7 +70,7 @@ export default function Content() {
                   <Button
                     variant="outlined"
                     className="text-lg text-white h-[55px] my-1 mr-8 max-w-[221px] normal-case rounded-none border-white"
-                    sx={{ '&:hover': { backgroundColor: '#6C9A5C' } }}
+                    sx={{ '&:hover': { backgroundColor: '#76a36d' } }}
                     href="#upcoming_events"
                   >
                     Upcoming Events
@@ -78,7 +78,7 @@ export default function Content() {
                   <Button
                     variant="outlined"
                     className="text-lg text-white h-[55px] my-1 max-w-[165px] normal-case rounded-none border-white"
-                    sx={{ '&:hover': { backgroundColor: '#6C9A5C' } }}
+                    sx={{ '&:hover': { backgroundColor: '#76a36d' } }}
                     href="#mailing"
                   >
                     Mailing List
@@ -100,7 +100,7 @@ export default function Content() {
         </div>
       </div>
 
-      <div className="w-auto py-[5%] px-[15%]" style={{ color: '#020B2C', background: 'linear-gradient(168.48deg, #FFFFFF 32.06%, rgba(255, 238, 194, 0.4) 77.51%)' }}>
+      <div className="w-auto py-[5%] px-[15%]" style={{ color: '#050a1f', background: 'linear-gradient(168.48deg, #FFFFFF 32.06%, rgba(255, 238, 194, 0.4) 77.51%)' }}>
         <div className="col-span-12">
           <h2 className="font-semibold text-5xl leading-[72px] mb-4">About Us</h2>
           <p className="font-normal text-lg leading-[27px] max-w-[800px]">

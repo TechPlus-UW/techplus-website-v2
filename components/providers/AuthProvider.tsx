@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useAppDispatch } from '@/lib/store/hooks';
 import { setUser, clearUser } from '@/lib/store/slices/userSlice';
 import { supabase } from '@/lib/supabase/client';
@@ -8,6 +8,7 @@ import { authRepository } from '@/lib/repositories/authRepository';
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const loadUserProfile = useCallback(async (userId: string) => {
     try {
@@ -49,6 +50,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     let mounted = true;
+    let sessionRestored = false;
 
     // Set up auth state change listener - this handles session restoration
     const {
@@ -56,20 +58,44 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return;
 
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
+      console.log('Auth state changed:', event, session?.user?.id);
+
+      // INITIAL_SESSION fires when Supabase restores a session from localStorage
+      if (event === 'INITIAL_SESSION') {
+        sessionRestored = true;
         if (session?.user) {
+          console.log('Session restored from storage, loading profile...');
           await loadUserProfile(session.user.id);
         } else {
+          console.log('No session found in storage');
           dispatch(clearUser());
+        }
+        if (mounted) {
+          setIsInitialized(true);
+        }
+      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        if (session?.user) {
+          await loadUserProfile(session.user.id);
+        }
+        if (mounted && !isInitialized) {
+          setIsInitialized(true);
         }
       } else if (event === 'SIGNED_OUT') {
         dispatch(clearUser());
+        if (mounted) {
+          setIsInitialized(true);
+        }
       }
     });
 
-    // Also check session immediately as a fallback
-    // This ensures we restore the session even if onAuthStateChange hasn't fired yet
+    // Also check session after a short delay to ensure Supabase has initialized
+    // This is a fallback in case INITIAL_SESSION doesn't fire
     const checkSession = async () => {
+      // Wait a bit for Supabase to restore session from localStorage
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (!mounted) return;
+
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         
@@ -77,30 +103,51 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
           console.error('Error getting session:', error);
           if (mounted) {
             dispatch(clearUser());
+            setIsInitialized(true);
           }
           return;
         }
 
-        if (session?.user && mounted) {
-          await loadUserProfile(session.user.id);
-        } else if (mounted) {
-          dispatch(clearUser());
+        // Only process if INITIAL_SESSION hasn't fired yet
+        if (!sessionRestored) {
+          if (session?.user && mounted) {
+            console.log('Session found on manual check, loading profile...');
+            await loadUserProfile(session.user.id);
+          } else if (mounted) {
+            console.log('No session found on manual check');
+            dispatch(clearUser());
+          }
+          
+          if (mounted) {
+            setIsInitialized(true);
+          }
         }
       } catch (error) {
         console.error('Error checking session:', error);
         if (mounted) {
           dispatch(clearUser());
+          setIsInitialized(true);
         }
       }
     };
 
-    checkSession();
+    // Check session after a delay to allow Supabase to initialize
+    const timeoutId = setTimeout(() => {
+      checkSession();
+    }, 200);
 
     return () => {
       mounted = false;
+      clearTimeout(timeoutId);
       subscription.unsubscribe();
     };
-  }, [dispatch, loadUserProfile]);
+  }, [dispatch, loadUserProfile, isInitialized]);
+
+  // Don't render children until we've checked for a session
+  // This prevents flash of logged-out state
+  if (!isInitialized) {
+    return <>{children}</>;
+  }
 
   return <>{children}</>;
 }

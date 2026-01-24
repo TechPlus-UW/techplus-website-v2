@@ -19,9 +19,16 @@ export interface UserSearchResult {
 class AdminRepository {
   async getStats(): Promise<AdminStats> {
     // Get total members
-    const { count: totalCount } = await supabase
+    const { count: totalCount, error: countError } = await supabase
       .from('profiles')
       .select('*', { count: 'exact', head: true });
+
+    if (countError) {
+      if (countError.code === 'PGRST301' || countError.message.includes('permission denied')) {
+        throw new Error('Permission denied. Make sure you have admin access and the admin policies are set up correctly.');
+      }
+      throw new Error(countError.message);
+    }
 
     // Get counts by role
     const { data: roleCounts, error } = await supabase
@@ -29,6 +36,9 @@ class AdminRepository {
       .select('role');
 
     if (error) {
+      if (error.code === 'PGRST301' || error.message.includes('permission denied')) {
+        throw new Error('Permission denied. Make sure you have admin access and the admin policies are set up correctly.');
+      }
       throw new Error(error.message);
     }
 
@@ -53,6 +63,10 @@ class AdminRepository {
       .maybeSingle();
 
     if (error) {
+      // Handle RLS errors more gracefully
+      if (error.code === 'PGRST301' || error.message.includes('permission denied')) {
+        throw new Error('Permission denied. Make sure you have admin access and the admin policies are set up correctly.');
+      }
       throw new Error(error.message);
     }
 

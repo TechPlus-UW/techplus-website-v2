@@ -39,13 +39,18 @@ export default function Navbar() {
     }
   }, []);
 
+  const userRole = useAppSelector((state) => state.user.userRole);
+  const isAdmin = userRole === 'admin';
+
   useEffect(() => {
-    const routes = ['/', '/team', '/calendar'];
+    const routes = isAdmin 
+      ? ['/', '/initiatives', '/impact', '/resources', '/team', '/calendar', '/admin']
+      : ['/', '/initiatives', '/impact', '/resources', '/team', '/calendar'];
     const index = routes.indexOf(pathname);
     if (index !== -1) {
       setCurrentTab(index);
     }
-  }, [pathname]);
+  }, [pathname, isAdmin]);
 
   const handleLogin = () => {
     router.push('/login');
@@ -59,7 +64,7 @@ export default function Navbar() {
 
   return (
     <div className="relative">
-      <AppBar position="sticky" className="top-0 z-50" style={{ backgroundColor: '#020B2C' }}>
+      <AppBar position="sticky" className="top-0 z-50" style={{ backgroundColor: '#050a1f' }}>
         <Toolbar className="flex items-center justify-between px-[6%]">
             <div className="flex items-center">
             <Link href="/" className="no-underline flex items-center">
@@ -122,8 +127,8 @@ export default function Navbar() {
                       onClick={handleSignup}
                       className="normal-case text-white"
                       sx={{
-                        backgroundColor: '#6C9A5C',
-                        '&:hover': { backgroundColor: '#8BC677' },
+                        backgroundColor: '#76a36d',
+                        '&:hover': { backgroundColor: '#5d8a55' },
                       }}
                     >
                       Sign Up

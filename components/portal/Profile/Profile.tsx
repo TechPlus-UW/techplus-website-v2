@@ -67,7 +67,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="py-10 px-5" style={{ backgroundColor: '#020B2C', minHeight: '100vh' }}>
+    <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
       <div className="max-w-2xl mx-auto">
         <h2 className="mb-8 text-4xl font-semibold text-white">My Profile</h2>
         
