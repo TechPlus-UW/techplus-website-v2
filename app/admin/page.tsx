@@ -49,7 +49,7 @@ export default function AdminPage() {
   const loadStats = async () => {
     try {
       const result = await adminService.getStats();
-      if (result.success) {
+      if (result.success && result.data) {
         setStats(result.data);
         setError(''); // Clear any previous errors
       } else {

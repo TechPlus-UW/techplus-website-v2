@@ -28,10 +28,11 @@ export default function FeatureFlagProvider({
   useEffect(() => {
     flagsmith.init({
       environmentID: process.env.NEXT_PUBLIC_FLAGSMITH_ENV_KEY || '',
+      angularHttpClient: null as any,
       onChange: () => {
         setFlagsmithFFs({
           loading: false,
-          allFeatureFlags: flagsmith.flags as Record<
+          allFeatureFlags: flagsmith.getAllFlags() as Record<
             string,
             { enabled: boolean }
           >,

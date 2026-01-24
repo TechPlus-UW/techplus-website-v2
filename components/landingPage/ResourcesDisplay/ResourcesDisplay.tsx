@@ -1,9 +1,12 @@
 'use client';
 
-'use client';
-
 import React, { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 import ResourceCard from './ResourceCard';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const debunkingTechCareers = {
   link: 'https://techplusuw.medium.com/debunking-tech-careers-e33ab49782d6',
@@ -90,33 +93,42 @@ export default function ResourcesDisplay() {
       </div>
       <div className="px-[5%]">
         <div className="px-[10%] min-[1040px]:px-[5%]">
-          {isLargeScreen
-            ? resourcesCardsLargeScreen.map((page, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className="min-[1040px]:grid min-[1040px]:grid-cols-2 min-[1040px]:grid-rows-1 min-[1040px]:h-[55vh] min-[1265px]:h-[45vh] min-[1500px]:h-[55vh]"
-                >
-                  {page.map((card, cardIndex) => (
-                    <div key={cardIndex} className="m-[5%]">
-                      <ResourceCard
-                        link={card.link}
-                        title={card.title}
-                        desc={card.desc}
-                        img={card.img}
-                      />
+          <Swiper
+            modules={[Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={32}
+            slidesPerView={1}
+            className="py-6"
+          >
+            {isLargeScreen
+              ? resourcesCardsLargeScreen.map((page, pageIndex) => (
+                  <SwiperSlide key={pageIndex}>
+                    <div className="min-[1040px]:grid min-[1040px]:grid-cols-2 min-[1040px]:grid-rows-1 min-[1040px]:h-[55vh] min-[1265px]:h-[45vh] min-[1500px]:h-[55vh]">
+                      {page.map((card, cardIndex) => (
+                        <div key={cardIndex} className="m-[5%]">
+                          <ResourceCard
+                            link={card.link}
+                            title={card.title}
+                            desc={card.desc}
+                            img={card.img}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ))
-            : resourcesCardsSmallScreen.map((card, index) => (
-                <ResourceCard
-                  key={index}
-                  link={card.link}
-                  title={card.title}
-                  desc={card.desc}
-                  img={card.img}
-                />
-              ))}
+                  </SwiperSlide>
+                ))
+              : resourcesCardsSmallScreen.map((card, index) => (
+                  <SwiperSlide key={index}>
+                    <ResourceCard
+                      link={card.link}
+                      title={card.title}
+                      desc={card.desc}
+                      img={card.img}
+                    />
+                  </SwiperSlide>
+                ))}
+          </Swiper>
         </div>
       </div>
     </div>
