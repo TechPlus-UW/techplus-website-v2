@@ -120,7 +120,7 @@ export default function AdminPage() {
     return (
       <>
         <Navbar />
-        <div className="py-10 px-5" style={{ backgroundColor: '#020B2C', minHeight: '100vh' }}>
+        <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
           <div className="max-w-6xl mx-auto">
             <Card className="bg-red-900 p-6">
               <Typography variant="h5" className="text-white mb-4">
@@ -277,7 +277,7 @@ export default function AdminPage() {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                     '& .MuiInputBase-input::placeholder': { color: 'rgba(255, 255, 255, 0.5)' },
@@ -287,10 +287,10 @@ export default function AdminPage() {
                   variant="contained"
                   onClick={handleSearch}
                   disabled={loading}
-                  className="bg-[#6C9A5C] hover:bg-[#8BC677] text-white normal-case"
+                  className="bg-[#76a36d] hover:bg-[#5d8a55] text-white normal-case"
                   sx={{
-                    backgroundColor: '#6C9A5C',
-                    '&:hover': { backgroundColor: '#8BC677' },
+                    backgroundColor: '#76a36d',
+                    '&:hover': { backgroundColor: '#5d8a55' },
                   }}
                 >
                   Search
@@ -340,7 +340,7 @@ export default function AdminPage() {
                             borderColor: 'rgba(255, 255, 255, 0.5)',
                           },
                           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#8BC677',
+                            borderColor: '#76a36d',
                           },
                           '& .MuiSvgIcon-root': {
                             color: 'white',

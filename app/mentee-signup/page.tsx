@@ -27,12 +27,12 @@ export default function MenteeSignupPage() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#020B2C' }}>
+        <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
           <div className="max-w-2xl mx-auto text-center">
             <Alert severity="warning" className="mb-4">
               Please log in to apply as a mentee.
             </Alert>
-            <Link href="/login" className="text-[#8BC677] hover:underline">
+            <Link href="/login" className="text-[#76a36d] hover:underline">
               Go to Login
             </Link>
           </div>
@@ -97,7 +97,7 @@ export default function MenteeSignupPage() {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
                     },
                   }}
                 />
@@ -116,7 +116,7 @@ export default function MenteeSignupPage() {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
                       '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
                     },
                   }}
                 />

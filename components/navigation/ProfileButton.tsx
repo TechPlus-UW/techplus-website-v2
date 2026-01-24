@@ -59,8 +59,8 @@ export default function ProfileButton() {
           sx={{
             width: 32,
             height: 32,
-            bgcolor: '#8BC677',
-            color: '#020B2C',
+            bgcolor: '#76a36d',
+            color: '#050a1f',
             fontSize: '14px',
             fontWeight: 600,
           }}
