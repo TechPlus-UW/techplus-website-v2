@@ -1,30 +1,6 @@
 import { supabase } from '../supabase/client';
 
 export interface MentorApplicationData {
-  // Required fields
-  // NEW: Basic info fields
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  
-  // NEW: Pronouns (array)
-  pronouns?: string[];
-  
-  // NEW: Dropdown fields
-  study_term?: string;
-  academic_program?: string;
-  how_did_you_hear?: string;
-  
-  // NEW: Radio button fields
-  commitment?: string;
-  interested_in_events?: string;
-  timezone?: string;
-  in_waterloo?: string;
-  is_international?: string;
-  mentees_count?: string;
-  was_mentee?: string;
-  is_returning?: string;
-
   user_id: string;
   profile_id: string;
   program?: string;

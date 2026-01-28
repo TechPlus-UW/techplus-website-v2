@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/calendar/page": "app/calendar/page.js",
+  "/initiatives/page": "app/initiatives/page.js",
+  "/login/page": "app/login/page.js",
+  "/impact/page": "app/impact/page.js",
+  "/mentee-signup/page": "app/mentee-signup/page.js",
+  "/page": "app/page.js",
+  "/mentor-signup/page": "app/mentor-signup/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/reset-password/page": "app/reset-password/page.js",
+  "/resources/page": "app/resources/page.js",
+  "/team/page": "app/team/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/mentors/page": "app/mentors/page.js"
+}

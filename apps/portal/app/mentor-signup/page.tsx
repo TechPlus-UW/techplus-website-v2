@@ -9,52 +9,19 @@ import Image from 'next/image';
 import Navbar from '@/components/navigation/Navbar';
 import { applicationService } from '@/lib/services/applicationService';
 import { useAppSelector } from '@/lib/store/hooks';
-import FormField from '../../components/form/formField';
-import FormCheckboxGroup from '../../components/form/formCheckBox';
-import FormRadioGroup from '../../components/form/formRadio';
-import FormSelect from '../../components/form/formDropDown';
-import Page1 from './page1';  // ← Import Step1
-import Page2 from './page2';
-import Page3 from './page3';
-import Step4 from './page4';
 
 export default function MentorSignupPage() {
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [firstName, setFirstName] = useState('');  // ← NEW
-  const [lastName, setLastName] = useState('');    // ← NEW
-  const [email, setEmail] = useState('');          // ← NEW
-  
-  // Checkboxes (array of strings)
-  const [pronouns, setPronouns] = useState<string[]>([]);  // ← NEW
-  
-  // Dropdowns (single string)
-  const [studyTerm, setStudyTerm] = useState('');          // ← NEW
-  const [academicProgram, setAcademicProgram] = useState(''); // ← NEW
-  const [howDidYouHear, setHowDidYouHear] = useState('');  // ← NEW
-  
-  // Radio buttons (single string)
-  const [commitment, setCommitment] = useState('');        // ← NEW
-  const [interestedInEvents, setInterestedInEvents] = useState(''); // ← NEW
-  const [timezone, setTimezone] = useState('');            // ← NEW
-  const [inWaterloo, setInWaterloo] = useState('');        // ← NEW
-  const [isInternational, setIsInternational] = useState(''); // ← NEW
-  const [menteesCount, setMenteesCount] = useState('');    // ← NEW
-  const [wasMentee, setWasMentee] = useState('');          // ← NEW
-  const [isReturning, setIsReturning] = useState('');      // ← NEW
+  const [program, setProgram] = useState('');
+  const [yearOfStudy, setYearOfStudy] = useState('');
+  const [company, setCompany] = useState('');
+  const [role, setRole] = useState('');
+  const [experienceYears, setExperienceYears] = useState('');
+  const [bio, setBio] = useState('');
+  const [availability, setAvailability] = useState('');
+  const [preferredCommunication, setPreferredCommunication] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const [raceEthnicOrigin, setRaceEthnicOrigin] = useState('');
-  const [gender, setGender] = useState('');
-  const [sexualOrientation, setSexualOrientation] = useState('');
-  const [isIndigenous, setIsIndigenous] = useState('');
-
-  const [contactMethods, setContactMethods] = useState<string[]>([]);  // Array for checkboxes
-  const [askMeAbout, setAskMeAbout] = useState('');
-  const [freetimeInterests, setFreetimeInterests] = useState('');
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
-
   const router = useRouter();
   const { userId, isAuthenticated } = useAppSelector((state) => state.user);
 
@@ -87,21 +54,15 @@ export default function MentorSignupPage() {
     const result = await applicationService.submitMentorApplication({
       user_id: userId,
       profile_id: userId,
-      first_name: firstName,           // ← NEW
-      last_name: lastName,             // ← NEW
-      email: email,                    // ← NEW
-      pronouns: pronouns,              // ← NEW (array)
-      study_term: studyTerm,           // ← NEW
-      academic_program: academicProgram, // ← NEW
-      commitment: commitment,          // ← NEW
-      interested_in_events: interestedInEvents, // ← NEW
-      timezone: timezone,              // ← NEW
-      in_waterloo: inWaterloo,         // ← NEW
-      is_international: isInternational, // ← NEW
-      mentees_count: menteesCount,     // ← NEW
-      was_mentee: wasMentee,           // ← NEW
-      is_returning: isReturning,       // ← NEW
-      how_did_you_hear: howDidYouHear, // ← NEW
+      program: program || undefined,
+      year_of_study: yearOfStudy ? parseInt(yearOfStudy) : undefined,
+      company: company || undefined,
+      role: role || undefined,
+      experience_years: experienceYears ? parseInt(experienceYears) : undefined,
+      bio: bio || undefined,
+      availability: availability || undefined,
+      preferred_communication: preferredCommunication || undefined,
+      additional_info: additionalInfo || undefined,
     });
 
     if (result.success) {
@@ -114,89 +75,59 @@ export default function MentorSignupPage() {
     setLoading(false);
   };
 
-  const handleNext = () => {
-    setCurrentStep(currentStep+1);
-  }
-
-  const handleBack = () => {
-    setCurrentStep(currentStep-1);
-  }
-
-  const handleSkip = () => {
-    // Clear the picture and move to next step or show confirmation
-    setProfilePicture(null);
-    // Either go to next step OR trigger submit manually
-    // For now, let's just show an alert
-    if (window.confirm('Submit application without profile picture?')) {
-      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-      handleSubmit(fakeEvent);
-    }
-  };
-
   return (
     <>
       <Navbar />
-      <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
+      <div className="min-h-screen py-16 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
 
         <div className="relative">
 
-          {/* LEFT LEAVES - way down */}
-          <div className="hidden md:block absolute top-[30vh] left-0">
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-          </div>
+        {/* LEFT LEAVES - way down */}
+        <div className="absolute top-[30vh] left-0">
+          <Image
+            src={leftLeafPath}
+            alt="decorative leaf"
+            width={456}
+            height={554}
+            className="h-[50vh] w-auto opacity-30 pointer-events-none"
+            unoptimized
+          />
+          <Image
+            src={leftLeafPath}
+            alt="decorative leaf"
+            width={456}
+            height={554}
+            className="h-[50vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
+            unoptimized
+          />
+        </div>
 
-          {/* RIGHT LEAVES - pulled up with negative space */}
-          <div className="hidden md:block absolute top-0 right-0 -mt-[15vh]">
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-          </div>
+        {/* RIGHT LEAVES - pulled up with negative space */}
+        <div className="absolute top-0 right-0 -mt-[15vh]">
+          <Image
+            src={rightLeafPath}
+            alt="decorative leaf"
+            width={451}
+            height={615}
+            className="h-[50vh] w-auto opacity-30 pointer-events-none"
+            unoptimized
+          />
+          <Image
+            src={rightLeafPath}
+            alt="decorative leaf"
+            width={451}
+            height={615}
+            className="h-[50vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
+            unoptimized
+          />
+        </div>
 
-          <div className="max-w-lg mx-auto">
+          <div className="max-w-xl mx-auto">
+            <h1 className="text-5xl text-[#6B8E6B] font-medium text-semibold text-center mb-8">Application - Mentor</h1>
+            <p className="text-[#0A1628] font-light text-center mb-8">
+              Thank you for your interest as a mentor! Please fill out the following information to see if you are eligible. It should take about 10 minutes:
+            </p>
+            
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
                 <Alert severity="error" className="bg-red-900 text-white">
@@ -204,86 +135,201 @@ export default function MentorSignupPage() {
                 </Alert>
               )}
 
-              {/* STEP 1 */}
-            {currentStep === 1 && (
-              <Page1
-                firstName={firstName}
-                setFirstName={setFirstName}
-                lastName={lastName}
-                setLastName={setLastName}
-                email={email}
-                setEmail={setEmail}
-                pronouns={pronouns}
-                setPronouns={setPronouns}
-                studyTerm={studyTerm}
-                setStudyTerm={setStudyTerm}
-                academicProgram={academicProgram}
-                setAcademicProgram={setAcademicProgram}
-                commitment={commitment}
-                setCommitment={setCommitment}
-                interestedInEvents={interestedInEvents}
-                setInterestedInEvents={setInterestedInEvents}
-                timezone={timezone}
-                setTimezone={setTimezone}
-                inWaterloo={inWaterloo}
-                setInWaterloo={setInWaterloo}
-                isInternational={isInternational}
-                setIsInternational={setIsInternational}
-                menteesCount={menteesCount}
-                setMenteesCount={setMenteesCount}
-                wasMentee={wasMentee}
-                setWasMentee={setWasMentee}
-                isReturning={isReturning}
-                setIsReturning={setIsReturning}
-                howDidYouHear={howDidYouHear}
-                setHowDidYouHear={setHowDidYouHear}
-                onNext={handleNext}
-              />
-            )}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[#0A1628] mb-2">Program</label>
+                  <TextField
+                    fullWidth
+                    placeholder="e.g., Computer Science"
+                    value={program}
+                    onChange={(e) => setProgram(e.target.value)}
+                    className="bg-gray-800 rounded"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      },
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#0A1628] mb-2">Year of Study</label>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    placeholder="e.g., 3"
+                    value={yearOfStudy}
+                    onChange={(e) => setYearOfStudy(e.target.value)}
+                    className="bg-gray-800 rounded"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
 
-            {/* Steps 2, 3, 4 will go here later */}
-            {currentStep === 2 && (
-            <Page2
-              raceEthnicOrigin={raceEthnicOrigin}
-              setRaceEthnicOrigin={setRaceEthnicOrigin}
-              gender={gender}
-              setGender={setGender}
-              sexualOrientation={sexualOrientation}
-              setSexualOrientation={setSexualOrientation}
-              isIndigenous={isIndigenous}
-              setIsIndigenous={setIsIndigenous}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[#0A1628] mb-2">Company</label>
+                  <TextField
+                    fullWidth
+                    placeholder="Current or previous company"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    className="bg-gray-800 rounded"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      },
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#0A1628] mb-2">Role</label>
+                  <TextField
+                    fullWidth
+                    placeholder="e.g., Software Engineer"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="bg-gray-800 rounded"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
 
-          {/* STEP 3 */}
-          {currentStep === 3 && (
-            <Page3
-              contactMethods={contactMethods}
-              setContactMethods={setContactMethods}
-              askMeAbout={askMeAbout}
-              setAskMeAbout={setAskMeAbout}
-              freetimeInterests={freetimeInterests}
-              setFreetimeInterests={setFreetimeInterests}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+              <div>
+                <label className="block text-white mb-2">Years of Experience</label>
+                <TextField
+                  fullWidth
+                  type="number"
+                  placeholder="e.g., 2"
+                  value={experienceYears}
+                  onChange={(e) => setExperienceYears(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
+                    },
+                  }}
+                />
+              </div>
 
-          {/* STEP 4 */}
-          {currentStep === 4 && (
-            <Step4
-              profilePicture={profilePicture}
-              setProfilePicture={setProfilePicture}
-              onBack={handleBack}
-              onSkip={handleSkip}
-            />
-          )}
+              <div>
+                <label className="block text-white mb-2">Bio</label>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  placeholder="Tell us about yourself and your experience"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
+                    },
+                  }}
+                />
+              </div>
 
+              <div>
+                <label className="block text-white mb-2">Availability</label>
+                <TextField
+                  fullWidth
+                  placeholder="e.g., Weekdays after 5pm, Weekends"
+                  value={availability}
+                  onChange={(e) => setAvailability(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
+                    },
+                  }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-white mb-2">Preferred Communication</label>
+                <TextField
+                  fullWidth
+                  placeholder="e.g., Email, Slack, Discord"
+                  value={preferredCommunication}
+                  onChange={(e) => setPreferredCommunication(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                    },
+                  }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-white mb-2">Additional Information</label>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  placeholder="Anything else you'd like to share"
+                  value={additionalInfo}
+                  onChange={(e) => setAdditionalInfo(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                    },
+                  }}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={loading}
+                className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
+                endIcon={<ArrowForward />}
+                sx={{
+                  backgroundColor: '#374151',
+                  '&:hover': { backgroundColor: '#4B5563' },
+                }}
+              >
+                {loading ? 'Submitting...' : 'Submit Application'}
+              </Button>
             </form>
           </div>
-
         </div>
       </div>
     </>

@@ -5,53 +5,23 @@ import { TextField, Button, Alert } from '@mui/material';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import Navbar from '@/components/navigation/Navbar';
 import { applicationService } from '@/lib/services/applicationService';
 import { useAppSelector } from '@/lib/store/hooks';
-import Page1 from './page1';
-import Page2 from './page2';
-import Page3 from './page3';
-import Step4 from './page4';
 
 export default function MenteeSignupPage() {
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-
-  const [pronouns, setPronouns] = useState<string[]>([]);
-
-  const [studyTerm, setStudyTerm] = useState('');
-  const [academicProgram, setAcademicProgram] = useState('');
-  const [howDidYouHear, setHowDidYouHear] = useState('');
-
-  const [commitment, setCommitment] = useState('');
-  const [interestedInEvents, setInterestedInEvents] = useState('');
-  const [timezone, setTimezone] = useState('');
-  const [inWaterloo, setInWaterloo] = useState('');
-  const [isInternational, setIsInternational] = useState('');
-  const [menteesCount, setMenteesCount] = useState('');
-  const [wasMentee, setWasMentee] = useState('');
-  const [isReturning, setIsReturning] = useState('');
+  const [program, setProgram] = useState('');
+  const [yearOfStudy, setYearOfStudy] = useState('');
+  const [careerGoals, setCareerGoals] = useState('');
+  const [areasOfInterest, setAreasOfInterest] = useState('');
+  const [preferredMentorCharacteristics, setPreferredMentorCharacteristics] = useState('');
+  const [availability, setAvailability] = useState('');
+  const [preferredCommunication, setPreferredCommunication] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const [mentorshipGoals, setMentorshipGoals] = useState('');
-  const [deiAgreement, setDeiAgreement] = useState('');
-  const [portfolioLink, setPortfolioLink] = useState('');
-
-  const [contactMethods, setContactMethods] = useState<string[]>([]);
-  const [askMeAbout, setAskMeAbout] = useState('');
-  const [freetimeInterests, setFreetimeInterests] = useState('');
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
-
   const router = useRouter();
   const { userId, isAuthenticated } = useAppSelector((state) => state.user);
-
-  const leftLeafPath = "/assets/images/left-leaf-portal.svg";
-  const rightLeafPath = "/assets/images/right-leaf-portal.svg";
 
   if (!isAuthenticated || !userId) {
     return (
@@ -79,21 +49,14 @@ export default function MenteeSignupPage() {
     const result = await applicationService.submitMenteeApplication({
       user_id: userId,
       profile_id: userId,
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      pronouns: pronouns,
-      study_term: studyTerm,
-      academic_program: academicProgram,
-      commitment: commitment,
-      interested_in_events: interestedInEvents,
-      timezone: timezone,
-      in_waterloo: inWaterloo,
-      is_international: isInternational,
-      mentees_count: menteesCount,
-      was_mentee: wasMentee,
-      is_returning: isReturning,
-      how_did_you_hear: howDidYouHear,
+      program: program || undefined,
+      year_of_study: yearOfStudy ? parseInt(yearOfStudy) : undefined,
+      career_goals: careerGoals || undefined,
+      areas_of_interest: areasOfInterest || undefined,
+      preferred_mentor_characteristics: preferredMentorCharacteristics || undefined,
+      availability: availability || undefined,
+      preferred_communication: preferredCommunication || undefined,
+      additional_info: additionalInfo || undefined,
     });
 
     if (result.success) {
@@ -106,165 +69,197 @@ export default function MenteeSignupPage() {
     setLoading(false);
   };
 
-  const handleNext = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const handleBack = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleSkip = () => {
-    setProfilePicture(null);
-    if (window.confirm('Submit application without profile picture?')) {
-      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-      handleSubmit(fakeEvent);
-    }
-  };
-
   return (
     <>
       <Navbar />
-      <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
-        <div className="relative">
-          {/* LEFT LEAVES - way down */}
-          <div className="hidden md:block absolute top-[30vh] left-0">
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={leftLeafPath}
-              alt="decorative leaf"
-              width={456}
-              height={554}
-              className="h-[60vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-          </div>
+      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#020B2C' }}>
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-4xl font-semibold text-white mb-8">Mentee Sign Up</h1>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <Alert severity="error" className="bg-red-900 text-white">
+                {error}
+              </Alert>
+            )}
 
-          {/* RIGHT LEAVES - pulled up with negative space */}
-          <div className="hidden md:block absolute top-0 right-0 -mt-[15vh]">
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-            <Image
-              src={rightLeafPath}
-              alt="decorative leaf"
-              width={451}
-              height={615}
-              className="h-[60vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
-              unoptimized
-            />
-          </div>
-
-          <div className="max-w-lg mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <Alert severity="error" className="bg-red-900 text-white">
-                  {error}
-                </Alert>
-              )}
-
-              {/* STEP 1 */}
-              {currentStep === 1 && (
-                <Page1
-                  firstName={firstName}
-                  setFirstName={setFirstName}
-                  lastName={lastName}
-                  setLastName={setLastName}
-                  email={email}
-                  setEmail={setEmail}
-                  pronouns={pronouns}
-                  setPronouns={setPronouns}
-                  studyTerm={studyTerm}
-                  setStudyTerm={setStudyTerm}
-                  academicProgram={academicProgram}
-                  setAcademicProgram={setAcademicProgram}
-                  commitment={commitment}
-                  setCommitment={setCommitment}
-                  interestedInEvents={interestedInEvents}
-                  setInterestedInEvents={setInterestedInEvents}
-                  timezone={timezone}
-                  setTimezone={setTimezone}
-                  inWaterloo={inWaterloo}
-                  setInWaterloo={setInWaterloo}
-                  isInternational={isInternational}
-                  setIsInternational={setIsInternational}
-                  menteesCount={menteesCount}
-                  setMenteesCount={setMenteesCount}
-                  wasMentee={wasMentee}
-                  setWasMentee={setWasMentee}
-                  isReturning={isReturning}
-                  setIsReturning={setIsReturning}
-                  howDidYouHear={howDidYouHear}
-                  setHowDidYouHear={setHowDidYouHear}
-                  onNext={handleNext}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-white mb-2">Program</label>
+                <TextField
+                  fullWidth
+                  placeholder="e.g., Computer Science"
+                  value={program}
+                  onChange={(e) => setProgram(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
+                    },
+                  }}
                 />
-              )}
-
-              {currentStep === 2 && (
-                <Page2
-                  mentorshipGoals={mentorshipGoals}
-                  setMentorshipGoals={setMentorshipGoals}
-                  deiAgreement={deiAgreement}
-                  setDeiAgreement={setDeiAgreement}
-                  portfolioLink={portfolioLink}
-                  setPortfolioLink={setPortfolioLink}
-                  onNext={handleNext}
-                  onBack={handleBack}
+              </div>
+              <div>
+                <label className="block text-white mb-2">Year of Study</label>
+                <TextField
+                  fullWidth
+                  type="number"
+                  placeholder="e.g., 2"
+                  value={yearOfStudy}
+                  onChange={(e) => setYearOfStudy(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
+                    },
+                  }}
                 />
-              )}
+              </div>
+            </div>
 
-              {currentStep === 3 && (
-                <Page3
-                  contactMethods={contactMethods}
-                  setContactMethods={setContactMethods}
-                  askMeAbout={askMeAbout}
-                  setAskMeAbout={setAskMeAbout}
-                  freetimeInterests={freetimeInterests}
-                  setFreetimeInterests={setFreetimeInterests}
-                  onNext={handleNext}
-                  onBack={handleBack}
-                />
-              )}
+            <div>
+              <label className="block text-white mb-2">Career Goals</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                placeholder="What are your career goals?"
+                value={careerGoals}
+                onChange={(e) => setCareerGoals(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
 
-              {currentStep === 4 && (
-                <Step4
-                  profilePicture={profilePicture}
-                  setProfilePicture={setProfilePicture}
-                  onBack={handleBack}
-                  onSkip={handleSkip}
-                />
-              )}
+            <div>
+              <label className="block text-white mb-2">Areas of Interest</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                placeholder="What areas are you interested in learning about?"
+                value={areasOfInterest}
+                onChange={(e) => setAreasOfInterest(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
 
-            </form>
-          </div>
+            <div>
+              <label className="block text-white mb-2">Preferred Mentor Characteristics</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={2}
+                placeholder="What qualities are you looking for in a mentor?"
+                value={preferredMentorCharacteristics}
+                onChange={(e) => setPreferredMentorCharacteristics(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Availability</label>
+              <TextField
+                fullWidth
+                placeholder="e.g., Weekdays after 5pm, Weekends"
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Preferred Communication</label>
+              <TextField
+                fullWidth
+                placeholder="e.g., Email, Slack, Discord"
+                value={preferredCommunication}
+                onChange={(e) => setPreferredCommunication(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Additional Information</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                placeholder="Anything else you'd like to share"
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disabled={loading}
+              className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
+              endIcon={<ArrowForward />}
+              sx={{
+                backgroundColor: '#374151',
+                '&:hover': { backgroundColor: '#4B5563' },
+              }}
+            >
+              {loading ? 'Submitting...' : 'Submit Application'}
+            </Button>
+          </form>
         </div>
       </div>
     </>

@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/calendar/page": "/calendar",
+  "/initiatives/page": "/initiatives",
+  "/login/page": "/login",
+  "/impact/page": "/impact",
+  "/mentee-signup/page": "/mentee-signup",
+  "/page": "/",
+  "/mentor-signup/page": "/mentor-signup",
+  "/profile/page": "/profile",
+  "/reset-password/page": "/reset-password",
+  "/resources/page": "/resources",
+  "/team/page": "/team",
+  "/signup/page": "/signup",
+  "/mentors/page": "/mentors"
+}
