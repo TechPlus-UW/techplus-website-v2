@@ -24,9 +24,6 @@ export default function MentorSignupPage() {
   const router = useRouter();
   const { userId, isAuthenticated } = useAppSelector((state) => state.user);
 
-  const leftLeafPath = "/assets/images/left-leaf-portal.svg";
-  const rightLeafPath = "/assets/images/right-leaf-portal.svg";
-
   if (!isAuthenticated || !userId) {
     return (
       <>
@@ -77,122 +74,44 @@ export default function MentorSignupPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#ffffff' }}>
+      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#020B2C' }}>
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-4xl font-semibold text-white mb-8">Mentor Sign Up</h1>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <Alert severity="error" className="bg-red-900 text-white">
+                {error}
+              </Alert>
+            )}
 
-        <div className="relative">
-
-        {/* LEFT LEAVES - way down */}
-        <div className="absolute top-[30vh] left-0">
-          <img src={leftLeafPath} alt="decorative leaf" className="h-[50vh] w-auto opacity-30" />
-          <img src={leftLeafPath} alt="decorative leaf" className="h-[40vh] w-auto mt-[30vh] opacity-30" />
-        </div>
-
-        {/* RIGHT LEAVES - pulled up with negative space */}
-        <div className="absolute top-0 right-0 -mt-[15vh]">
-          <img src={rightLeafPath} alt="decorative leaf" className="h-[50vh] w-auto opacity-30" />
-          <img src={rightLeafPath} alt="decorative leaf" className="h-[40vh] w-auto mt-[90vh] opacity-30" />
-        </div>
-
-          <div className="max-w-xl mx-auto">
-            <h1 className="text-5xl text-[#6B8E6B] font-medium text-semibold text-center mb-8">Application - Mentor</h1>
-            <p className="text-[#0A1628] font-light text-center mb-8">
-              Thank you for your interest as a mentor! Please fill out the following information to see if you are eligible. It should take about 10 minutes:
-            </p>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <Alert severity="error" className="bg-red-900 text-white">
-                  {error}
-                </Alert>
-              )}
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[#0A1628] mb-2">Program</label>
-                  <TextField
-                    fullWidth
-                    placeholder="e.g., Computer Science"
-                    value={program}
-                    onChange={(e) => setProgram(e.target.value)}
-                    className="bg-gray-800 rounded"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                      },
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-white mb-2">Year of Study</label>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    placeholder="e.g., 3"
-                    value={yearOfStudy}
-                    onChange={(e) => setYearOfStudy(e.target.value)}
-                    className="bg-gray-800 rounded"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-white mb-2">Company</label>
-                  <TextField
-                    fullWidth
-                    placeholder="Current or previous company"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="bg-gray-800 rounded"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                      },
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-white mb-2">Role</label>
-                  <TextField
-                    fullWidth
-                    placeholder="e.g., Software Engineer"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="bg-gray-800 rounded"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white mb-2">Years of Experience</label>
+                <label className="block text-white mb-2">Program</label>
+                <TextField
+                  fullWidth
+                  placeholder="e.g., Computer Science"
+                  value={program}
+                  onChange={(e) => setProgram(e.target.value)}
+                  className="bg-gray-800 rounded"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                    },
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-white mb-2">Year of Study</label>
                 <TextField
                   fullWidth
                   type="number"
-                  placeholder="e.g., 2"
-                  value={experienceYears}
-                  onChange={(e) => setExperienceYears(e.target.value)}
+                  placeholder="e.g., 3"
+                  value={yearOfStudy}
+                  onChange={(e) => setYearOfStudy(e.target.value)}
                   className="bg-gray-800 rounded"
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -204,16 +123,16 @@ export default function MentorSignupPage() {
                   }}
                 />
               </div>
+            </div>
 
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white mb-2">Bio</label>
+                <label className="block text-white mb-2">Company</label>
                 <TextField
                   fullWidth
-                  multiline
-                  rows={4}
-                  placeholder="Tell us about yourself and your experience"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Current or previous company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
                   className="bg-gray-800 rounded"
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -225,14 +144,13 @@ export default function MentorSignupPage() {
                   }}
                 />
               </div>
-
               <div>
-                <label className="block text-white mb-2">Availability</label>
+                <label className="block text-white mb-2">Role</label>
                 <TextField
                   fullWidth
-                  placeholder="e.g., Weekdays after 5pm, Weekends"
-                  value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
+                  placeholder="e.g., Software Engineer"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
                   className="bg-gray-800 rounded"
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -244,63 +162,123 @@ export default function MentorSignupPage() {
                   }}
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="block text-white mb-2">Preferred Communication</label>
-                <TextField
-                  fullWidth
-                  placeholder="e.g., Email, Slack, Discord"
-                  value={preferredCommunication}
-                  onChange={(e) => setPreferredCommunication(e.target.value)}
-                  className="bg-gray-800 rounded"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'white',
-                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                    },
-                  }}
-                />
-              </div>
-
-              <div>
-                <label className="block text-white mb-2">Additional Information</label>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={3}
-                  placeholder="Anything else you'd like to share"
-                  value={additionalInfo}
-                  onChange={(e) => setAdditionalInfo(e.target.value)}
-                  className="bg-gray-800 rounded"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'white',
-                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                    },
-                  }}
-                />
-              </div>
-
-              <Button
-                type="submit"
-                variant="contained"
+            <div>
+              <label className="block text-white mb-2">Years of Experience</label>
+              <TextField
                 fullWidth
-                disabled={loading}
-                className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
-                endIcon={<ArrowForward />}
+                type="number"
+                placeholder="e.g., 2"
+                value={experienceYears}
+                onChange={(e) => setExperienceYears(e.target.value)}
+                className="bg-gray-800 rounded"
                 sx={{
-                  backgroundColor: '#374151',
-                  '&:hover': { backgroundColor: '#4B5563' },
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
                 }}
-              >
-                {loading ? 'Submitting...' : 'Submit Application'}
-              </Button>
-            </form>
-          </div>
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Bio</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                placeholder="Tell us about yourself and your experience"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Availability</label>
+              <TextField
+                fullWidth
+                placeholder="e.g., Weekdays after 5pm, Weekends"
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Preferred Communication</label>
+              <TextField
+                fullWidth
+                placeholder="e.g., Email, Slack, Discord"
+                value={preferredCommunication}
+                onChange={(e) => setPreferredCommunication(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-white mb-2">Additional Information</label>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                placeholder="Anything else you'd like to share"
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                className="bg-gray-800 rounded"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
+                  },
+                }}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disabled={loading}
+              className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
+              endIcon={<ArrowForward />}
+              sx={{
+                backgroundColor: '#374151',
+                '&:hover': { backgroundColor: '#4B5563' },
+              }}
+            >
+              {loading ? 'Submitting...' : 'Submit Application'}
+            </Button>
+          </form>
         </div>
       </div>
     </>
