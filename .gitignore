@@ -40,3 +40,5 @@ next-env.d.ts
 .turbo
 
 .env.old
+
+apps/portal/.next
