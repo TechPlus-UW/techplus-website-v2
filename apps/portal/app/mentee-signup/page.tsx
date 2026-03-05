@@ -1,13 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button, Alert } from '@mui/material';
+import { Button, Alert } from '@mui/material';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/navigation/Navbar';
 import { applicationService } from '@/lib/services/applicationService';
 import { useAppSelector } from '@/lib/store/hooks';
+
+import FormField from '../../components/portal/FormField/FormField';
+import FormTextArea from '../../components/portal/FormTextArea/FormTextArea';
 
 export default function MenteeSignupPage() {
   const [program, setProgram] = useState('');
@@ -18,8 +21,10 @@ export default function MenteeSignupPage() {
   const [availability, setAvailability] = useState('');
   const [preferredCommunication, setPreferredCommunication] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const { userId, isAuthenticated } = useAppSelector((state) => state.user);
 
@@ -74,183 +79,79 @@ export default function MenteeSignupPage() {
       <Navbar />
       <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#020B2C' }}>
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-semibold text-white mb-8">Mentee Sign Up</h1>
-          
+
+          <h1 className="text-4xl font-semibold text-white mb-8">
+            Mentee Sign Up
+          </h1>
+
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <Alert severity="error" className="bg-red-900 text-white">
-                {error}
-              </Alert>
-            )}
+
+            {error && <Alert severity="error">{error}</Alert>}
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-white mb-2">Program</label>
-                <TextField
-                  fullWidth
-                  placeholder="e.g., Computer Science"
-                  value={program}
-                  onChange={(e) => setProgram(e.target.value)}
-                  className="bg-gray-800 rounded"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'white',
-                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
-                    },
-                  }}
-                />
-              </div>
-              <div>
-                <label className="block text-white mb-2">Year of Study</label>
-                <TextField
-                  fullWidth
-                  type="number"
-                  placeholder="e.g., 2"
-                  value={yearOfStudy}
-                  onChange={(e) => setYearOfStudy(e.target.value)}
-                  className="bg-gray-800 rounded"
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'white',
-                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                      '&.Mui-focused fieldset': { borderColor: '#76a36d' },
-                    },
-                  }}
-                />
-              </div>
-            </div>
+              <FormField
+                label="Program"
+                placeholder="e.g., Computer Science"
+                value={program}
+                onChange={setProgram}
+              />
 
-            <div>
-              <label className="block text-white mb-2">Career Goals</label>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                placeholder="What are your career goals?"
-                value={careerGoals}
-                onChange={(e) => setCareerGoals(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
+              <FormField
+                label="Year of Study"
+                type="number"
+                placeholder="e.g., 2"
+                value={yearOfStudy}
+                onChange={setYearOfStudy}
               />
             </div>
 
-            <div>
-              <label className="block text-white mb-2">Areas of Interest</label>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                placeholder="What areas are you interested in learning about?"
-                value={areasOfInterest}
-                onChange={(e) => setAreasOfInterest(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
-              />
-            </div>
+            <FormTextArea
+              label="Career Goals"
+              placeholder="What are your career goals?"
+              value={careerGoals}
+              onChange={setCareerGoals}
+            />
 
-            <div>
-              <label className="block text-white mb-2">Preferred Mentor Characteristics</label>
-              <TextField
-                fullWidth
-                multiline
-                rows={2}
-                placeholder="What qualities are you looking for in a mentor?"
-                value={preferredMentorCharacteristics}
-                onChange={(e) => setPreferredMentorCharacteristics(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
-              />
-            </div>
+            <FormTextArea
+              label="Areas of Interest"
+              placeholder="What areas are you interested in learning about?"
+              value={areasOfInterest}
+              onChange={setAreasOfInterest}
+            />
 
-            <div>
-              <label className="block text-white mb-2">Availability</label>
-              <TextField
-                fullWidth
-                placeholder="e.g., Weekdays after 5pm, Weekends"
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
-              />
-            </div>
+            <FormTextArea
+              label="Preferred Mentor Characteristics"
+              rows={2}
+              placeholder="What qualities are you looking for in a mentor?"
+              value={preferredMentorCharacteristics}
+              onChange={setPreferredMentorCharacteristics}
+            />
 
-            <div>
-              <label className="block text-white mb-2">Preferred Communication</label>
-              <TextField
-                fullWidth
-                placeholder="e.g., Email, Slack, Discord"
-                value={preferredCommunication}
-                onChange={(e) => setPreferredCommunication(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
-              />
-            </div>
+            <FormField
+              label="Availability"
+              placeholder="Weekdays after 5pm, Weekends"
+              value={availability}
+              onChange={setAvailability}
+            />
 
-            <div>
-              <label className="block text-white mb-2">Additional Information</label>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                placeholder="Anything else you'd like to share"
-                value={additionalInfo}
-                onChange={(e) => setAdditionalInfo(e.target.value)}
-                className="bg-gray-800 rounded"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#8BC677' },
-                  },
-                }}
-              />
-            </div>
+            <FormField
+              label="Preferred Communication"
+              placeholder="Email, Slack, Discord"
+              value={preferredCommunication}
+              onChange={setPreferredCommunication}
+            />
+
+            <FormTextArea
+              label="Additional Information"
+              value={additionalInfo}
+              onChange={setAdditionalInfo}
+            />
 
             <Button
               type="submit"
               variant="contained"
               fullWidth
               disabled={loading}
-              className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
               endIcon={<ArrowForward />}
               sx={{
                 backgroundColor: '#374151',
@@ -259,6 +160,7 @@ export default function MenteeSignupPage() {
             >
               {loading ? 'Submitting...' : 'Submit Application'}
             </Button>
+
           </form>
         </div>
       </div>
