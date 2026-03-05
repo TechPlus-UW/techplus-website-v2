@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 import { applicationService } from '@/lib/services/applicationService';
 import { useAppSelector } from '@/lib/store/hooks';
 
-import MentorField from '../MentorField/MentorField';
-import MentorTextArea from '../MentorTextArea/MentorTextArea';
+import MentorFormField from '../MentorFormField/MentorFormField';
+import MentorFormTextArea from '../MentorFormTextArea/MentorFormTextArea';
 
-export default function MentorApplicationForm() {
+export default function MentorForm() {
     const router = useRouter();
     const { userId } = useAppSelector((state) => state.user);
 
@@ -83,14 +83,14 @@ export default function MentorApplicationForm() {
                 {error && <Alert severity="error">{error}</Alert>}
 
                 <div className="grid grid-cols-2 gap-4">
-                <MentorField
+                <MentorFormField
                     label="Program"
                     value={form.program}
                     placeholder="Computer Science"
                     onChange={(v) => updateField('program', v)}
                 />
 
-                <MentorField
+                <MentorFormField
                     label="Year of Study"
                     type="number"
                     value={form.yearOfStudy}
@@ -99,45 +99,45 @@ export default function MentorApplicationForm() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                <MentorField
+                <MentorFormField
                     label="Company"
                     value={form.company}
                     onChange={(v) => updateField('company', v)}
                 />
 
-                <MentorField
+                <MentorFormField
                     label="Role"
                     value={form.role}
                     onChange={(v) => updateField('role', v)}
                 />
                 </div>
 
-                <MentorField
+                <MentorFormField
                 label="Years of Experience"
                 type="number"
                 value={form.experienceYears}
                 onChange={(v) => updateField('experienceYears', v)}
                 />
 
-                <MentorTextArea
+                <MentorFormTextArea
                 label="Bio"
                 value={form.bio}
                 onChange={(v) => updateField('bio', v)}
                 />
 
-                <MentorField
+                <MentorFormField
                 label="Availability"
                 value={form.availability}
                 onChange={(v) => updateField('availability', v)}
                 />
 
-                <MentorField
+                <MentorFormField
                 label="Preferred Communication"
                 value={form.preferredCommunication}
                 onChange={(v) => updateField('preferredCommunication', v)}
                 />
 
-                <MentorTextArea
+                <MentorFormTextArea
                 label="Additional Information"
                 rows={3}
                 value={form.additionalInfo}

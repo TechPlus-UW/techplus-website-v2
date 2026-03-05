@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 
-export default function FormField({
+export default function MenteeFormField({
     label,
     value,
     onChange,

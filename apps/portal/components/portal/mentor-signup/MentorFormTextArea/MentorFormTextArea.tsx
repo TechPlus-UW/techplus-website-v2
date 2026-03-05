@@ -1,16 +1,14 @@
 import { TextField } from '@mui/material';
 
-export default function MentorField({
+export default function MentorFormTextArea({
     label,
     value,
-    placeholder,
-    type = 'text',
+    rows = 4,
     onChange,
     }: {
     label: string;
     value: string;
-    placeholder?: string;
-    type?: string;
+    rows?: number;
     onChange: (value: string) => void;
     }) {
     return (
@@ -19,8 +17,8 @@ export default function MentorField({
 
         <TextField
             fullWidth
-            type={type}
-            placeholder={placeholder}
+            multiline
+            rows={rows}
             value={value}
             onChange={(e) => onChange(e.target.value)}
         />

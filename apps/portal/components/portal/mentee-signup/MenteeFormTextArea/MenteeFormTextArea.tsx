@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 
-export default function FormTextArea({
+export default function MenteeFormTextArea({
     label,
     value,
     rows = 3,

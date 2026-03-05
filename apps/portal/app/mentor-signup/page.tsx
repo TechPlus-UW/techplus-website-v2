@@ -6,7 +6,7 @@ import { useAppSelector } from '@/lib/store/hooks';
 
 import Navbar from '@/components/navigation/Navbar';
 import MentorDecorativeLeaf from '@/components/portal/mentor-signup/MentorDecorativeLeaf/MentorDecorativeLeaf';
-import MentorApplicationForm from '@/components/portal/mentor-signup/MentorApplicationForm/MentorApplicationForm';
+import MentorForm from '@/components/portal/mentor-signup/MentorForm/MentorForm';
 
 export default function MentorSignupPage() {
   const { userId, isAuthenticated } = useAppSelector((state) => state.user);
@@ -35,7 +35,7 @@ export default function MentorSignupPage() {
       
       <div className="min-h-screen py-16 px-4 overflow-hidden bg-white">
         <MentorDecorativeLeaf />
-        <MentorApplicationForm />
+        <MentorForm />
       </div>
     </>
   );
